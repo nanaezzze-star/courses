@@ -23,7 +23,6 @@ To run the project on your local machine, follow these steps:
 
 1. **Clone the repository:**
    git clone <https://github.com/nanaezzze-star/courses>
-   cd inHRM
 
 2. **Install dependencies:**
    Use npm (or yarn/pnpm) to install all required packages:
