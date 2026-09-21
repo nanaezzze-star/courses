@@ -1,7 +1,3 @@
-# inHRM
-
-**inHRM** is a modern platform for employee learning and development management. The project includes features for browsing courses, tracking progress, and interactive classrooms for communication.
-
 ## Core Features
 
 - **Authentication System:** Secure user login (powered by Firebase Auth).
@@ -26,7 +22,7 @@ _The full list of dependencies can be found in the `package.json` file._
 To run the project on your local machine, follow these steps:
 
 1. **Clone the repository:**
-   git clone <YOUR_REPOSITORY_URL>
+   git clone <https://github.com/nanaezzze-star/courses>
    cd inHRM
 
 2. **Install dependencies:**
@@ -49,5 +45,4 @@ To run the project on your local machine, follow these steps:
    After this, the project will be available in your browser (usually at `http://localhost:5173`).
 
 ## Links
-
 Deployment: https://courses-five-jade.vercel.app/
