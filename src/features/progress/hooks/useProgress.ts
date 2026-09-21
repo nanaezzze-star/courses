@@ -1,7 +1,8 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { progressService } from "../services/progressService";
 import type { Progress } from "../types/progress";
 import { courseService } from "@/features/courses";
+import { useQuery } from "@tanstack/react-query";
 
 export interface Employees {
   userId: string;
@@ -13,40 +14,23 @@ export interface Employees {
 }
 
 export function useProgress() {
-  const [progress, setProgress] = useState<
-    (Progress & { courseName?: string })[]
-  >([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  //serchfiliter state
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [selectedPosition, setSelectedPosition] = useState<string>("");
 
-  useEffect(() => {
-    //fetch progress and courses list
-    Promise.all([
-      progressService.getAllProgresses(),
-      courseService.getAllCourses(),
-    ])
-      .then(([progressData, coursesData]) => {
-        //create map id:name
-        const courseMap = new Map(coursesData.map((c) => [c.id, c.name]));
-        //add course name
+  const {data: courses =[]} = useQuery({
+    queryKey:['courses', 'all'],
+    queryFn:courseService.getAllCourses
+  })
 
-        const enrichedProgress = progressData.map((item) => ({
-          ...item,
-          courseName: courseMap.get(item.courseId) || item.courseId,
-        }));
-
-        setProgress(enrichedProgress);
-      })
-      .catch((error) => console.error(error))
-      .finally(() => setLoading(false)); //turn off loading
-  }, []);
-
+  const {data: progressData = [], isLoading: loading} = useQuery({
+        queryKey:['progress'],
+    queryFn:progressService.getAllProgresses,
+  })
   const rawEmployees = useMemo(() => {
-    const map = new Map<string, Employees>(); //group by Uid
+    const courseMap = new Map(courses.map((c)=>[c.id, c.name]))
+    const map = new Map<string, Employees>();
 
-    progress.forEach((item) => {
+    progressData.forEach((item) => {
       //create a new employee card
       if (!map.has(item.userId)) {
         map.set(item.userId, {
@@ -58,10 +42,15 @@ export function useProgress() {
           courses: [],
         });
       }
-      map.get(item.userId)!.courses.push(item);
+      const enrichedItem = {
+        ...item,
+        courseName: courseMap.get(item.courseId)|| item.courseId
+      }
+      map.get(item.userId)!.courses.push(enrichedItem)
+   
     });
     return Array.from(map.values());
-  }, [progress]);
+  }, [progressData, courses]);
 
   const positions = useMemo(() => {
     return Array.from(

@@ -1,32 +1,18 @@
-import { useState, useEffect } from "react";
-import type { Course } from "../types/course";
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { courseService } from "../services/courseService";
 
 export type contentCourses = "Lecture" | "Quiz" | "Course";
+
 export function useCourses() {
   const [activeTab, setActiveTab] = useState<contentCourses>("Course");
-  const [courses, setCourses] = useState<Course[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [selectedAuth, setSelectedAuth] = useState<string>("");
 
-  useEffect(() => {
-    let isMounted = true; //track component mount status
-    setLoading(true);
-
-    courseService
-      .getCourseByContent(activeTab)
-      .then((data) => {
-        if (isMounted) setCourses(data);
-      })
-      .catch((err) => console.error(err))
-      .finally(() => {
-        if (isMounted) setLoading(false); //update state if the component is still mounted
-      });
-    return () => {
-      isMounted = false; //unmount or change active tab
-    };
-  }, [activeTab]);
+  const { data: courses = [], isLoading: loading } = useQuery({
+    queryKey: ["courses", activeTab],
+    queryFn: () => courseService.getCourseByContent(activeTab),
+  });
 
   const authors = Array.from(
     new Set(courses.map((c) => c.authorName).filter(Boolean)), //unique list of authors
