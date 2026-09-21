@@ -1,75 +1,49 @@
-# React + TypeScript + Vite
+## Core Features
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+- **Authentication System:** Secure user login (powered by Firebase Auth).
+- **Course Catalog:** Browse available learning materials with a convenient tab and filtering system.
+- **Classroom:** Interactive space with real-time chat support.
+- **Progress Tracking:** Tables and filters to monitor performance and course completion status.
+- **Modular UI System:** Reusable components (buttons, icons, pagination, avatars) built with Tailwind CSS.
 
-Currently, two official plugins are available:
+## Tech Stack & Dependencies
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Main technologies and tools used in the project:
 
-## React Compiler
+- **Core:** React, TypeScript, Vite
+- **Styling:** Tailwind CSS
+- **Backend as a Service (BaaS):** Firebase (Authentication, Firestore / Realtime Database)
+- **Routing:** React Router
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+_The full list of dependencies can be found in the `package.json` file._
 
-## Expanding the ESLint configuration
+## Local Setup Instructions
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+To run the project on your local machine, follow these steps:
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+1. **Clone the repository:**
+   git clone <YOUR_REPOSITORY_URL>
+   cd inHRM
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+2. **Install dependencies:**
+   Use npm (or yarn/pnpm) to install all required packages:
+   npm install
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+3. **Configure environment variables:**
+   Create a .env.local file in the root of the project and add your Firebase configuration keys (and any other necessary API keys). Example configuration:
+   VITE_FIREBASE_API_KEY=your_api_key
+   VITE_FIREBASE_AUTH_DOMAIN=your_auth_domain
+   VITE_FIREBASE_PROJECT_ID=your_project_id
+   VITE_FIREBASE_STORAGE_BUCKET=your_storage_bucket
+   VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+   VITE_FIREBASE_APP_ID=your_app_id
 
-```
+4. **Start the development server:**
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+   npm run dev
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+   After this, the project will be available in your browser (usually at `http://localhost:5173`).
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Links
 
-```
+Deployment: https://courses-five-jade.vercel.app/
